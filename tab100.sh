@@ -39,17 +39,25 @@ done
 # grep -Ev ^[0-9]+\.?[0-9]* $file > head.txt			# keep all lines that DON'T begin with a floating point
 
 ## create data array
-# i=1
-# while read -a line ; do
-#     for ((e=0;e<=2;e++)); do
-#     	eval array$i[$e]=${line[$e]}		
-#     done
-#     i=$[$i+1]
-#     if [ $i -eq $repeat ]
-#     then
-#     	i=1
-#     fi
-# done < $file
+j=1
+echo ""
+while read -a line ; do
+echo "j=$j"
+    for ((e=0;e<=2;e++)); do
+    	eval array$j[$e]=$(echo "$line" | cut -f 1)
+#    	eval array$j[$e]=${line[$e]}		
+    done
+    j=$[$j+1]
+    echo "j=$j"
+    if [ $j -eq $repeat ]
+    then
+    	j=1
+    fi
+echo "j=$j"
+for ((i=1;i<=$repeat;i++)); do
+	eval echo \${array$i[@]}
+done
+done < $file
 
 ## print out the content of each array- WORKING
 echo ""
